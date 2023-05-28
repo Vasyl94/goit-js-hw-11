@@ -58,4 +58,50 @@ async function onSubmitBtnClick(e) {
       gallery.innerHTML = "";
       search = "";
     };
+  } 
+
+     
+async function onLoadMoreBtnClick() {
+  console.log(search)
+  console.log(hits);
+  try {
+  const images = await getImage(search, pagecount)
+  renderImageCard(images.hits);
+  simpleLightbox.refresh();
+
+  pagecount += 1;
+  if (totalHits <= (pagecount-1)* 40) {
+    console.log(pagecount)
+    btn.classList.add("visually-hidden");
+    Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
   }
+}
+ catch(error){console.log(error)}
+}
+
+function renderImageCard(images) {
+   let imagesMarkup = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
+    hits += 1;
+    return `<div class="photo-card">
+   <a class="gallery__link" href="${largeImageURL}">
+  <img src="${webformatURL}" alt="${tags}" loading="lazy"/>
+  </a>
+  <div class="info">
+    <p class="info-item">
+      <b>Likes: ${likes}</b>
+    </p>
+    <p class="info-item">
+      <b>Views: ${views}</b>
+    </p>
+    <p class="info-item">
+      <b>Comments: ${comments}</b>
+    </p>
+    <p class="info-item">
+      <b>Downloads: ${downloads}</b>
+    </p>
+  </div>
+</div>`
+  }).join(' ');
+    gallery.insertAdjacentHTML('beforeend', imagesMarkup);
+}
+
