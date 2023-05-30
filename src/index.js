@@ -1,7 +1,7 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import Notiflix from "notiflix";
-import { getImage } from "/getImages.js";
+import { getImage } from "/getimages.js";
 
 let pagecount = 1;
 let hits = 0;
